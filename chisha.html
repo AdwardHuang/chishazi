@@ -1,0 +1,320 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>转盘</title>
+
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            margin: 10px auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('./turnplate-bg.png');
+            /*大转盘的背景图 */
+            background-size: 100%;
+            background-repeat: no-repeat;
+            padding: 22px;
+        }
+
+        .wz_main {
+            width: 800px;
+            height: 800px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            transition: all 5s cubic-bezier(0.46, 0.03, 0, 0.96);
+
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 0px solid black;
+            border-radius: 50%;
+
+
+            overflow: hidden;
+            position: relative;
+            transition: all 5s cubic-bezier(0.46, 0.03, 0, 0.96);
+        }
+
+        .pointer{
+            box-shadow: 7px 7px 9px 5px rgba(0, 0, 0, .4), 16px 12px 12px rgb(80 77 77 / 44%);
+        }
+
+        .pointer {
+            width: 50px;
+            height: 50px;
+            background: #dc2426;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9;
+        }
+
+        .pointer-bar {
+            width: 80px;
+            height: 25px;
+            background: #dc2426;
+            position: absolute;
+            left: 150%;
+            transform: translate(-50%, 50%) rotate(0deg);
+        }
+
+        .pointer-cursor {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            left: 240%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotateZ(45deg);
+            background: #dc2426;
+        }
+
+        .part {
+            height: 100%;
+            width: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: left center;
+
+        }
+
+        .wz_part {
+            height: 100%;
+            width: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: left center;
+
+        }
+
+        .bg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wz_bg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .title {
+            transform: translate(0, -50%);
+            transform-origin: left top;
+            width: 100%;
+            height: auto;
+            text-align: center;
+            font-size: 30px;
+            color: #e53130;
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            padding-left: 85px;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .wz_title {
+            transform: translate(0, -50%);
+            transform-origin: left top;
+            width: 100%;
+            height: auto;
+            text-align: center;
+            font-size: 30px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 14%;
+            padding-left: 85px;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ren {
+            transform: translate(0, -50%);
+            transform-origin: left top;
+            width: 100%;
+            height: auto;
+            text-align: center;
+            font-size: 30px;
+            background-color: black;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            padding-left: 85px;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #fff;
+
+
+        }
+
+        .title img {
+            transform: rotate(90deg);
+            width: 50%;
+        }
+
+        .kaqi {
+            transform: rotate(90deg);
+            width: 50%;
+        }
+
+        .kaqi p {
+            padding: 0;
+            margin: 0;
+        }
+
+        .pk {
+            font-size: 12px;
+            font-weight: bolder;
+        }
+
+        .py {
+            font-size: 16px;
+        }
+
+        .wz_name {
+            transform: rotate(-90deg);
+            color: #000;
+            display: none;
+        }
+
+        .winner {
+            font-size: 30px;
+            color: rgb(2, 235, 79);
+            font-weight: bold;
+        }
+
+        .web_notice {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .web_notice > div {
+            width: 550px;
+            background: #FFF;
+            border-radius: 40px;
+            padding: 50px 40px;
+        }
+        
+        .web_notice .notice_title {
+            font-weight: bold;
+            text-align: center;
+            font-size: 35px;
+            color: #ff00a5;    
+            margin-bottom: 20px;
+        }
+        
+        .web_notice div {
+            font-size: 20px;
+            margin-top: 26px;
+            line-height: 30px;
+            color: #999;
+            /* font-family: 'Courier New', Courier, monospace; */
+        }
+
+        .web_notice .notice_strong {
+            font-size: 30px;
+            color: #fb0000;
+            text-shadow: 4px 5px 20px black;
+        }
+        
+        
+        .web_notice a {
+            display: block;
+            background: #98a3ff;
+            color: #FFF;
+            text-align: center;
+            font-weight: bold;
+            font-size: 19px;
+            line-height: 60px;
+            margin: 0 auto;
+            margin-top: 45px;
+            border-radius: 32px;
+            width: 80%;
+        }
+        
+        @media (max-width: 768px) {
+            .web_notice > div {
+                width: 80%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="zhuti" style="position: relative;width: 650px;height: 650px; margin:0 auto" onclick="start()">
+        <!-- 最外层玩家占位 -->
+        <div class="wz_main">
+            <div id="wz_temp" class="wz_part" style="display: none;">
+                <div class="wz_bg"></div>
+                <div class="wz_title"></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <!-- 大转盘抽奖 -->
+            <div class="main" ontransitionend="end()">
+                <div id="temp" class="part" style="display: none;">
+                    <div class="bg"></div>
+                    <div class="title"></div>
+                    <div class="ren"></div>
+                    <div></div>
+                    <!-- <input type="text" value="99" /> -->
+                </div>
+            </div>
+            <!-- 箭头 -->
+            <div class="pointer">
+                <div class="pointer-bar"></div>
+                <div class="pointer-cursor"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <button onclick="start()">开始</button> -->
+    <div class="winner"></div>
+
+    <div id="web_notice" class="web_notice" onclick="noticeHide()">
+        <div>
+            <div class="notice_title">恭喜你</div>
+            <div id="showMsg" style="text-align:center;color:#000;"></div>
+            <!-- <a onclick="javascript:document.querySelector('.web_notice').remove()" style="color:#ffffff;">我知道了</a> -->
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript" src="./chisha.js.obfuscated.js"></script>
+</body>
+
+</html>
